@@ -1,29 +1,43 @@
-/*µµ¼­¹øÈ£°¡ 1ÀÎ µµ¼­ÀÇ ÀÌ¸§*/
+/*ë„ì„œë²ˆí˜¸ê°€ 1ì¸ ë„ì„œì˜ ì´ë¦„*/
 SELECT bookname 
 FROM Book 
 WHERE bookid='1';
 
-/* °¡°İÀÌ 20,000¿ø ÀÌ»óÀÎ µµ¼­ÀÇ ÀÌ¸§ */
+/* ê°€ê²©ì´ 20,000ì› ì´ìƒì¸ ë„ì„œì˜ ì´ë¦„ */
 SELECT bookname 
 FROM Book
 WHERE price >=20000;
 
-/* ¹ÚÁö¼ºÀÇ ÃÑ ±¸¸Å¾×*/
+/* ë°•ì§€ì„±ì˜ ì´ êµ¬ë§¤ì•¡*/
 SELECT sum(saleprice)
 FROM Orders
 WHERE custid='1';
 
-/* ¹ÚÁö¼ºÀÇ ÃÑ ±¸¸Å¾×2*/
+/* ë°•ì§€ì„±ì˜ ì´ êµ¬ë§¤ì•¡2*/
 SELECT sum(saleprice)
 FROM Customer, Orders
-WHERE Customer.custid=orders.custid AND Customer.name LIKE '¹ÚÁö¼º';
+WHERE Customer.custid=orders.custid AND Customer.name LIKE 'ë°•ì§€ì„±';
 
-/* ¹ÚÁö¼ºÀÌ ±¸¸ÅÇÑ µµ¼­ÀÇ ¼ö*/
+/* ë°•ì§€ì„±ì´ êµ¬ë§¤í•œ ë„ì„œì˜ ìˆ˜*/
 SELECT COUNT(*)
 FROM Customer, Orders
-WHERE Customer.custid=Orders.custid AND Customer.name LIKE '¹ÚÁö¼º';
+WHERE Customer.custid=Orders.custid AND Customer.name LIKE 'ë°•ì§€ì„±';
 
-/*¹ÚÁö¼ºÀÌ ±¸¸ÅÇÑ µµ¼­ÀÇ ÃâÆÇ»ç ¼ö*/
+/*ë°•ì§€ì„±ì´ êµ¬ë§¤í•œ ë„ì„œì˜ ì¶œíŒì‚¬ ìˆ˜*/
 SELECT COUNT(publisher)
 FROM Book,Customer,Orders
-WHERE Book.bookid=Orders.bookid AND Customer.custid=Orders.custid AND Customer.name LIKE '¹ÚÁö¼º';
+WHERE Book.bookid=Orders.bookid AND Customer.custid=Orders.custid AND Customer.name LIKE 'ë°•ì§€ì„±';
+
+
+/* ë°•ì§€ì„±ì´ êµ¬ë§¤í•œ ë„ì„œì˜ ì´ë¦„,ê°€ê²©,ì •ê°€ì™€,íŒë§¤ê°€ê²©ì˜ ì°¨ì´ */
+SELECT bookname, price, price-saleprice
+FROM Book,Orders,Customer
+WHERE Orders.bookid=Book.bookid AND Orders.custid=Customer.custid AND customer.name LIKE 'ë°•ì§€ì„±';
+/* ë°•ì§€ì„±ì´ êµ¬ë§¤í•˜ì§€ ì•Šì€ ë„ì„œì˜ ì´ë¦„ */
+SELECT bookname
+FROM Book
+WHERE NOT EXISTS (SELECT bookname
+				FROM Orders, Customer
+				WHERE Orders.custid=customer.custid
+				AND Book.bookid = Orders.bookid
+				AND Customer.name LIKE 'ë°•ì§€ì„±');
