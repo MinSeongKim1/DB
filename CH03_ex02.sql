@@ -1,26 +1,79 @@
-/*¸¶´ç¼­Á¡ÀÇ ¿î¿µÀÚ¿Í °æ¿µÀÚ°¡ ¿ä±¸ÇÏ´Â ´ÙÀ½ Áú¹®¿¡ ´ëÇØ SQL ¹®À» ÀÛ¼ºÇÏ½Ã¿À./*
-/*(1) ¸¶´ç¼­Á¡ µµ¼­ÀÇ ÃÑ¼ö*/
+/*ë§ˆë‹¹ì„œì ì˜ ìš´ì˜ìžì™€ ê²½ì˜ìžê°€ ìš”êµ¬í•˜ëŠ” ë‹¤ìŒ ì§ˆë¬¸ì— ëŒ€í•´ SQL ë¬¸ì„ ìž‘ì„±í•˜ì‹œì˜¤./*
+/*(1) ë§ˆë‹¹ì„œì  ë„ì„œì˜ ì´ìˆ˜*/
 SELECT COUNT(*) 
 FROM Book;
-/*(2) ¸¶´ç¼­Á¡¿¡ µµ¼­¸¦ Ãâ°íÇÏ´Â ÃâÆÇ»çÀÇ ÃÑ¼ö*/
+/*(2) ë§ˆë‹¹ì„œì ì— ë„ì„œë¥¼ ì¶œê³ í•˜ëŠ” ì¶œíŒì‚¬ì˜ ì´ìˆ˜*/
 SELECT COUNT(DISTINCT publisher)
 FROM Book;
-/*(3) ¸ðµç °í°´ÀÇ ÀÌ¸§,ÁÖ¼Ò*/
+/*(3) ëª¨ë“  ê³ ê°ì˜ ì´ë¦„,ì£¼ì†Œ*/
 SELECT name, address
 FROM customer;
-/*(4)2020³â 7¿ù 4ÀÏ~7¿ù 7ÀÏ »çÀÌ¿¡ ÁÖ¹®¹ÞÀº µµ¼­ÀÇ ÁÖ¹®¹øÈ£*/
+/*(4)2020ë…„ 7ì›” 4ì¼~7ì›” 7ì¼ ì‚¬ì´ì— ì£¼ë¬¸ë°›ì€ ë„ì„œì˜ ì£¼ë¬¸ë²ˆí˜¸*/
 SELECT orderid
 FROM Orders
 WHERE orderdate BETWEEN '2020-07-04' and '2020-07-07';
-/*(5)2020³â 7¿ù 4ÀÏ~ 7¿ù 7ÀÏ »çÀÌ¿¡ ÁÖ¹®¹ÞÀº µµ¼­¸¦ Á¦¿ÜÇÑ µµ¼­ÀÇ ÁÖ¹®¹øÈ£*/
+/*(5)2020ë…„ 7ì›” 4ì¼~ 7ì›” 7ì¼ ì‚¬ì´ì— ì£¼ë¬¸ë°›ì€ ë„ì„œë¥¼ ì œì™¸í•œ ë„ì„œì˜ ì£¼ë¬¸ë²ˆí˜¸*/
 SELECT orderid 
 FROM Orders
 WHERE orderdate NOT BETWEEN '2020-07-04' and '2020-07-07';
-/*(6)¼ºÀÌ '±è' ¾¾ÀÎ °í°´ÀÇ ÀÌ¸§°ú ÁÖ¼Ò*/
+/*(6)ì„±ì´ 'ê¹€' ì”¨ì¸ ê³ ê°ì˜ ì´ë¦„ê³¼ ì£¼ì†Œ*/
 SELECT name, address
 FROM customer
-WHERE name LIKE '±è%';
-/*(7)¼ºÀÌ '±è' ¾¾ÀÌ°í ÀÌ¸§ÀÌ'¾Æ'·Î ³¡³ª´Â °í°´ÀÇ ÀÌ¸§°ú ÁÖ¼Ò*/
+WHERE name LIKE 'ê¹€%';
+/*(7)ì„±ì´ 'ê¹€' ì”¨ì´ê³  ì´ë¦„ì´'ì•„'ë¡œ ëë‚˜ëŠ” ê³ ê°ì˜ ì´ë¦„ê³¼ ì£¼ì†Œ*/
 SELECT name, address
 FROM customer
-WHERE name Like '±è%¾Æ';
+WHERE name Like 'ê¹€%ì•„';
+
+/* ì£¼ë¬¸í•˜ì§€ ì•Šì€ ê³ ê°ì˜ ì´ë¦„(ë¶€ì†ì§ˆì˜ ì‚¬ìš©)*/
+SELECT  name
+FROM customer
+WHERE name NOT IN(
+    SELECT customer.name
+    FROM customer,orders
+    WHERE orders.custid=customer.custid); 
+/* ì£¼ë¬¸ ê¸ˆì•¡ì˜ ì´ì•¡ê³¼ ì£¼ë¬¸ì˜ í‰ê·  ê¸ˆì•¡*/
+SELECT SUM(saleprice) AS ì£¼ë¬¸ì´ì•¡, AVG(saleprice) AS ì£¼ë¬¸í‰ê· 
+FROM Orders, Book
+WHERE Book.bookid = Orders.bookid;
+SELECT SUM(Orders.saleprice) AS ì´ì•¡, AVG(Orders.saleprice) AS í‰ê· 
+FROM Orders;
+
+/*ê³ ê°ì˜ ì´ë¦„ê³¼ ê³ ê°ë³„ êµ¬ë§¤ì•¡ */
+SELECT Customer.name AS ì´ë¦„ , SUM(Orders.saleprice) AS ê³ ê°ë³„êµ¬ë§¤ì•¡
+FROM Orders, Customer
+WHERE Orders.custid=Customer.custid
+GROUP BY name;
+/*Order BY name;*/
+
+/*ê³ ê°ì˜ ì´ë¦„ê³¼ ê³ ê°ì´ êµ¬ë§¤í•œ ë„ì„œ ëª©ë¡ */
+SELECT name, bookname
+FROM Orders, Customer, Book
+WHERE Orders.custid=Customer.custid AND Book.bookid=Orders.bookid;
+
+
+/* ë„ì„œì˜ ê°€ê²©(Book í…Œì´ë¸”)ê³¼ íŒë§¤ê°€ê²©(Orders í…Œì´ë¸”) ì°¨ì´ê°€ ê°€ìž¥ ë§Žì€ ì£¼ë¬¸*/
+SELECT *
+FROM Book, Orders
+Where Book.bookid=Orders.bookid 
+    AND price-saleprice = (
+        SELECT MAX(price-saleprice)
+        FROM Book, Orders
+        WHERE Book.bookid=Orders.bookid
+        );
+/*(2)ìµœì†Œ*/
+SELECT *
+FROM Book, Orders
+Where Book.bookid=Orders.bookid 
+    AND price-saleprice = (
+        SELECT MIN(price-saleprice)
+        FROM Book, Orders
+        WHERE Book.bookid=Orders.bookid
+        );
+/*ë„ì„œì˜ íŒë§¤ì•¡ í‰ê· ë³´ë‹¤ ìžì‹ ì˜ êµ¬ë§¤ì•¡ í‰ê· ì´ ë” ë†’ì€ ê³ ê°ì˜ ì´ë¦„*/
+SELECT name, AVG(saleprice)
+FROM Customer, Orders
+WHERE Customer.custid=Orders.custid
+GROUP BY name
+HAVING AVG(saleprice) > (SELECT AVG(saleprice)
+FROM Orders);
