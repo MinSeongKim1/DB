@@ -1,4 +1,4 @@
-/* NewBook TABLE »ı¼º */
+/* NewBook TABLE ìƒì„± */
 CREATE TABLE NewBook (
 bookid NUMBER   PRIMARY KEY,
 bookname VARCHAR2(20) NOT NULL,
@@ -6,14 +6,14 @@ publisher VARCHAR2(20) UNIQUE,
 price NUMBER DEFAULT 10000 CHECK(price > 1000));
  
  
- /* NewCustomer TABLE »ı¼º */
+ /* NewCustomer TABLE ìƒì„± */
  CREATE TABLE NewCustomer(
  custid NUMBER PRIMARY KEY,
  name VARCHAR2(20),
  address VARCHAR(20),
  phone VARCHAR(30));
  
-/* NewOrders TABLE »ı¼º */
+/* NewOrders TABLE ìƒì„± */
 CREATE TABLE NewOrders(
 orderid NUMBER,
 custid NUMBER NOT NULL,
@@ -23,50 +23,50 @@ orderdate DATE,
 PRIMARY KEY(orderid),
 FOREIGN KEY(custid)REFERENCES NewCustomer(custid) ON DELETE CASCADE);
 
-/*¼Ó¼ºÃß°¡ */
+/*ì†ì„±ì¶”ê°€ */
 ALTER TABLE NewBook ADD isbn VARCHAR2(13);
 
-/* µ¥ÀÌÅÍ Å¸ÀÔ º¯°æ*/
+/* ë°ì´í„° íƒ€ì… ë³€ê²½*/
 ALTER TABLE NewBook MODIFY isbn NUMBER;
 
-/* TABLE »èÁ¦ */
+/* TABLE ì‚­ì œ */
 DROP TABLE NewBook;
 
 SELECT * FROM Book;
 
-/* ÅõÇÃ Ãß°¡ */
+/* íˆ¬í”Œ ì¶”ê°€ */
 INSERT INTO Book(bookid, bookname, publisher, price)
-    VALUES(11, '½ºÆ÷Ã÷ ÀÇÇĞ', 'ÇÑ¼ÖÀÇÇĞ¼­Àû', 90000);
+    VALUES(11, 'ìŠ¤í¬ì¸  ì˜í•™', 'í•œì†”ì˜í•™ì„œì ', 90000);
     
 INSERT INTO Book(bookid,bookname,publisher)
-    VALUES(14,'½ºÆ÷Ã÷ ÀÇÇĞ','ÇÑ¼ÖÀÇÇĞ¼­Àû');
+    VALUES(14,'ìŠ¤í¬ì¸  ì˜í•™','í•œì†”ì˜í•™ì„œì ');
     
 SELECT * FROM Imported_book;
 
-/* ´ë·® »ğÀÔ bulk */
+/* ëŒ€ëŸ‰ ì‚½ì… bulk */
 INSERT INTO Book(bookid, bookname, price, publisher)
     SELECT bookid, bookname, price, publisher
     FROM Imported_book;
 
-/* ¼Ó¼º ¼öÁ¤ UPDATE*/
+/* ì†ì„± ìˆ˜ì • UPDATE*/
 SELECT * FROM Customer;
 
 UPDATE Customer
-SET address='´ëÇÑ¹Î±¹ ºÎ»ê'
+SET address='ëŒ€í•œë¯¼êµ­ ë¶€ì‚°'
 WHERE custid=5;
 
 UPDATE Customer
 SET address=(SELECT address
             FROM    Customer
-            WHERE   name='±è¿¬¾Æ')
-WHERE   name='¹Ú¼¼¸®';
+            WHERE   name='ê¹€ì—°ì•„')
+WHERE   name='ë°•ì„¸ë¦¬';
 
-/*  ÅõÇÃ »èÁ¦ DELETE */
+/*  íˆ¬í”Œ ì‚­ì œ DELETE */
 DELETE FROM Customer
 WHERE custid=5;
 
 SELECT * FROM Customer;
 
-/* ·Ñ¹é */
+/* ë¡¤ë°± */
 ROLLBACK;
 SELECT * FROM Customer;
