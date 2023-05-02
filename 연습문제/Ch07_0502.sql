@@ -1,4 +1,4 @@
-/* 7Àå Summer Table */
+/* 7ìž¥ Summer Table */
 
 CREATE TABLE Summer(
 sid NUMBER,
@@ -30,23 +30,23 @@ FROM Summer;
 
 delete from Summer Where sid=200;
 
-SELECT price "C ¼ö°­·á"
+SELECT price "C ìˆ˜ê°•ë£Œ"
 FROM Summer
 WHERE class='C';
 
 INSERT INTO Summer VALUES( NULL, 'JAVA', 25000);
 
-SELECT COUNT(*) as "¼ö°­ÀÎ¿ø"
+SELECT COUNT(*) as "ìˆ˜ê°•ì¸ì›"
 FROM Summer;
 
-SELECT COUNT(sid) as "¼ö°­ÀÎ¿ø"
+SELECT COUNT(sid) as "ìˆ˜ê°•ì¸ì›"
 FROM Summer;
 
-SELECT COUNT(sid) as "¼ö°­ÀÎ¿ø"
+SELECT COUNT(sid) as "ìˆ˜ê°•ì¸ì›"
 FROM Summer
 WHERE sid IS NOT NULL;
 
-/* FORTRAN ¼ö°­·á ¼öÁ¤ */
+/* FORTRAN ìˆ˜ê°•ë£Œ ìˆ˜ì • */
 UPDATE Summer
 SET price = 15000
 WHERE class = 'FORTRAN';
@@ -54,7 +54,7 @@ WHERE class = 'FORTRAN';
 SELECT *
 FROM Summer;
 
-SELECT DISTINCT price as " FORTRAN ¼ö°­·á"
+SELECT DISTINCT price as " FORTRAN ìˆ˜ê°•ë£Œ"
 FROM Summer
 WHERE class='FORTRAN';
 
@@ -69,7 +69,7 @@ WHERE class='FORTRAN' AND sid= 100;
 DROP TABLE Summerprice;
 DROP TABLE SummerEnroll;
 
-/* SummerPrice Å×ÀÌºí »ý¼º*/
+/* SummerPrice í…Œì´ë¸” ìƒì„±*/
 
 CREATE TABLE SummerPrice(
     class VARCHAR2(20),
@@ -110,7 +110,7 @@ FROM SummerPrice,SummerEnroll
 WHERE SummerPrice.class = SummerEnroll.class;
 
 
-SELECT price as  "C ¼ö°­·á"
+SELECT price as  "C ìˆ˜ê°•ë£Œ"
 FROM SummerPrice
 WHERE class='c';
 
@@ -119,7 +119,7 @@ WHERE sid= 200;
 
 SELECT * FROM SummerEnroll;
 
-SELECT price as "C ¼ö°­·á"
+SELECT price as "C ìˆ˜ê°•ë£Œ"
 FROM SummerPrice
 WHERE class='C';
 
@@ -136,7 +136,7 @@ UPDATE SummerPrice
 SET price=15000
 WHERE class='FORTRAN';
 
-SELECT price as "FORTRAN ¼ö°­·á"
+SELECT price as "FORTRAN ìˆ˜ê°•ë£Œ"
 FROM SummerPrice
 WHERE class='FORTRAN';
 
